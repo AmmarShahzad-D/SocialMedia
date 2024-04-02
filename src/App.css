@@ -1,0 +1,18 @@
+.postCard {
+  /* width: 18rem; */
+  text-align: center;
+  margin: 20px;
+}
+
+.create-post {
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  margin: 50px 0px 0px 50px;
+}
+
+.post-input {
+  width: 70%;
+}
