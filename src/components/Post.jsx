@@ -6,6 +6,7 @@ import { PostList } from "../store/post-list-store";
 
 const Post = ({ post }) => {
   const { deletePost } = useContext(PostList);
+  console.log((post.id));
   return (
     <div>
       <div className="card postCard" style={{ width: "18rem" }}>
@@ -27,7 +28,7 @@ const Post = ({ post }) => {
             </span>
           ))}
           <div className="alert alert-info m-0 p-0 mt-4  " role="alert">
-            This Post is reacted by {post.reaction} Propple
+            This Post is reacted by {post.reaction} People
           </div>
         </div>
       </div>

@@ -22,9 +22,9 @@ const CreatePost = () => {
     postBodyElement.current.value = "";
     reactionElement.current.value = "";
     tagsElement.current.value = "";
-
     return addPost(userId, postTitle, postBody, reaction, tags);
   };
+
   return (
     <form className="create-post" onSubmit={handleSubmit}>
       <div className="mb-3 post-input ">

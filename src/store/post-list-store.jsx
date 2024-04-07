@@ -5,25 +5,26 @@ export const PostList = createContext({
   postList: [],
   addPost: () => {},
   deletePost: () => {},
+  addInitialPost: () => {},
 });
 
 const postListReducer = (currentPostList, action) => {
   let NewPostList = currentPostList;
-  if (action.type === "DELETE_POST") {
+  if (action.type === "DELETE_POSTS") {
     NewPostList = currentPostList.filter(
-      (post) => post.id !== action.payload.postid
+      (post) => post.id !== action.payload.id
     );
+    console.log(action.payload.postid);
   } else if (action.type === "ADD_POST") {
     NewPostList = [action.payload, ...currentPostList];
+  } else if (action.type === "ADD_INITIAL_POSTS") {
+    NewPostList = action.payload.posts;
   }
   return NewPostList;
 };
 
 const PostListProvider = ({ children }) => {
-  const [postList, dispatchPostList] = useReducer(
-    postListReducer,
-    POST_DEFAULT_LIST
-  );
+  const [postList, dispatchPostList] = useReducer(postListReducer, []);
 
   const addPost = (userId, postTitle, postBody, reaction, tags) => {
     dispatchPostList({
@@ -38,40 +39,32 @@ const PostListProvider = ({ children }) => {
       },
     });
   };
-  const deletePost = (postid) => {
+  const addInitialPost = (posts) => {
     dispatchPostList({
-      type: "DELETE_POST",
+      type: "ADD_INITIAL_POSTS",
       payload: {
-        postid,
+        posts,
+      },
+    });
+  };
+
+  const deletePost = (id) => {
+    dispatchPostList({
+      type: "DELETE_POSTS",
+      payload: {
+        id,
       },
     });
   };
 
   return (
-    <PostList.Provider value={{ postList, addPost, deletePost }}>
+    <PostList.Provider
+      value={{ postList, addPost, deletePost, addInitialPost }}
+    >
       {children}
     </PostList.Provider>
   );
 };
-
-const POST_DEFAULT_LIST = [
-  {
-    id: 1,
-    title: "Student of BS-IT",
-    body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti, enim dolores. Ex dolorem expedita mollitia!",
-    reaction: 2,
-    userId: 1,
-    tags: ["student", "study", "computer Science", "BS-IT"],
-  },
-  {
-    id: 2,
-    title: "Student of BS-IT",
-    body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti, enim dolores. Ex dolorem expedita mollitia!",
-    reaction: 21,
-    userId: 2,
-    tags: ["student", "study", "computer Science", "BS-IT"],
-  },
-];
 
 PostListProvider.propTypes = {
   children: PropTypes.object,
